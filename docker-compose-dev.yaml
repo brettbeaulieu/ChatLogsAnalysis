@@ -36,7 +36,6 @@ services:
   redis:
     image: redis:latest
 
-
   backend:
     build:
       context: ${BACKEND_DIR}
@@ -64,9 +63,15 @@ services:
       dockerfile: Dockerfile.development
     ports:
       - "3000:3000"
-      - "49153:49153"
-    volumes:
-      - ${FRONTEND_DIR}:/app
+    develop:
+      watch:
+        - action: sync
+          path: ./${FRONTEND_DIR}
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
 
 volumes:
   postgres_data:
