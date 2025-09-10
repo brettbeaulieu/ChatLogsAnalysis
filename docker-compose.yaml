@@ -1,28 +1,20 @@
 services:
   db:
     image: postgres:latest
-    container_name: postgres_db
     environment:
-      POSTGRES_DB: backenddb
-      POSTGRES_USER: maire
-      POSTGRES_PASSWORD: maire
-    ports:
-      - "5432:5432"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    deploy:
-      resources:
-        limits:
-          cpus: "2.0"
+
   celery:
     build:
-      context: ${BACKEND_DIR}
-      dockerfile: Dockerfile.Celery.development
-    volumes:
-      - ${BACKEND_DIR}:/app
+      context: ./backend
+      dockerfile: Dockerfile.Celery
     depends_on:
       - redis
       - backend
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     deploy:
       resources:
         reservations:
@@ -30,26 +22,22 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [ gpu ]
-        limits:
-          cpus: "4.0"
 
   redis:
     image: redis:latest
 
   backend:
     build:
-      context: ${BACKEND_DIR}
-      dockerfile: Dockerfile.development
+      context: ./backend
+      dockerfile: Dockerfile
     command: >
       sh -c "python manage.py makemigrations --no-input &&
-         python manage.py migrate --no-input &&
-         python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - ${BACKEND_DIR}:/app
+        python manage.py migrate --no-input &&
+        python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
     environment:
-      - DJANGO_SETTINGS_MODULE=backend.settings.development
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     depends_on:
       - redis
     deploy:
@@ -59,14 +47,14 @@ services:
 
   frontend:
     build:
-      context: ${FRONTEND_DIR}
-      dockerfile: Dockerfile.development
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     develop:
       watch:
         - action: sync
-          path: ./${FRONTEND_DIR}
+          path: ./frontend
           target: /app
           ignore:
             - node_modules/

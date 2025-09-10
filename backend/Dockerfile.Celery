@@ -1,6 +1,6 @@
 
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Use the official PyTorch image from NVIDIA as the base image
+FROM pytorch/pytorch:2.8.0-cuda12.8-cudnn9-runtime
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -11,9 +11,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt /app/
-COPY torch_requirements.txt /app/
 RUN pip install -r requirements.txt
-RUN pip install -r torch_requirements.txt
 
 # Copy the rest of the application code
 COPY . /app/

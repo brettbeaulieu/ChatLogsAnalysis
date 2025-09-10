@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,6 +24,8 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 102400
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+
+DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-@&j!(eibl1lhm!8gs#l@vj#wv5%e5ijp9jaxk$d=_tvhypmu$1"
@@ -88,14 +92,18 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# get postgres pw from env
+
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "yourpassword")
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "backenddb",
-        "USER": "maire",
-        "PASSWORD": "maire",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": POSTGRES_PASSWORD,
         "HOST": "db",
-        "PORT": "5432",
+        "PORT": 5432,
     }
 }
 
