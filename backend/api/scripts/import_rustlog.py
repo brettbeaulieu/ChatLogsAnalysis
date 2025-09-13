@@ -7,12 +7,17 @@ from django.core.files import File
 from ..models import ChatFile, Channel
 
 
-def import_rustlog(repo_name: str, channel_name: str, start_date: datetime, end_date: datetime):
+# Returns the number of files imported; raises exceptions on error.
+def import_rustlog(
+    repo_name: str, channel_name: str, start_date: datetime, end_date: datetime
+) -> int:
+
     # Get channel
     channel = Channel.objects.get_or_create(name=channel_name)[0]
 
     # List to hold the formatted date strings
     date_list = []
+    logs_grabbed = 0
 
     # Iterate over the date range
     current_date = start_date
@@ -22,7 +27,6 @@ def import_rustlog(repo_name: str, channel_name: str, start_date: datetime, end_
         date_list.append(formatted_date)
         # Move to the next day
         current_date += timedelta(days=1)
-
 
     for date in date_list:
         try:
@@ -48,10 +52,16 @@ def import_rustlog(repo_name: str, channel_name: str, start_date: datetime, end_
                 )
                 chat_file.save()
 
+            logs_grabbed += 1
+
             # Remove the temp file after uploading
             os.remove(file_path)
 
         except requests.RequestException as e:
-            print(f"Error fetching URL {link}: {e}")
+            raise requests.RequestException(f"Request failed for {link}: {e}") from e
         except IOError as e:
-            print(f"Error handling file {file_path}: {e}")
+            raise IOError(f"Error handling file {file_path}: {e}") from e
+        except Exception as e:
+            raise Exception(f"Unexpected error: {e}") from e
+
+    return logs_grabbed

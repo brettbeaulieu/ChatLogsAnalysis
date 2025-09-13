@@ -1,9 +1,16 @@
-'use client'
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { AppFrame } from "@/components/AppFrame/AppFrame";
+import MainPanel from "@/components/channel/ViewPanel/ViewPanel";
+import { getChannelsQuery } from "@/lib/query/channel";
+import { getQueryClient } from "@/lib/query/get-client";
 
-import React from 'react'
-import { AppFrame } from '@/components/AppFrame/AppFrame'
-import MainPanel from './MainPanel'
+export default async function Page() {
+	const queryClient = getQueryClient();
+	queryClient.prefetchQuery(getChannelsQuery);
 
-export default function Page() {
-  return <AppFrame main={<MainPanel />} />
+	return (
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<AppFrame main={<MainPanel />} />
+		</HydrationBoundary>
+	);
 }

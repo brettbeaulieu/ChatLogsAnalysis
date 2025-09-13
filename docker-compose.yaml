@@ -9,7 +9,8 @@ services:
   celery:
     build:
       context: ./backend
-      dockerfile: Dockerfile.Celery
+      dockerfile: Dockerfile
+    command: ["celery", "-A", "backend", "worker", "--loglevel=debug"]
     depends_on:
       - redis
       - backend
@@ -44,6 +45,8 @@ services:
       resources:
         limits:
           cpus: "2.0"
+    volumes:
+      - ./backend:/app
 
   frontend:
     build:

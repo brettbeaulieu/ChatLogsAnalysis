@@ -3,10 +3,11 @@ datasets
 django
 django-filter
 django-cors-headers
+django-celery-results
 djangorestframework
 djangorestframework-simplejwt
 gunicorn
-numpy==1.25.2
+numpy
 psycopg2-binary
 pylint
 pylint-django
@@ -14,3 +15,4 @@ requests
 requests-toolbelt
 redis
 transformers
+setuptools

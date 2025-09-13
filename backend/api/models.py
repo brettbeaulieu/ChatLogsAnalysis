@@ -1,6 +1,6 @@
-'''
+"""
 Module to define the Model objects. These objects will likewise define our database
-'''
+"""
 
 import os
 import uuid
@@ -28,6 +28,8 @@ class Channel(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = str(uuid.uuid4())
         self.name_lower = self.name.lower()  # Convert name to lowercase for uniqueness
         if (
             Channel.objects.exclude(id=self.id)
@@ -74,7 +76,7 @@ class EmoteSet(models.Model):
 
 
 class ChatFile(models.Model):
-    ''' 
+    """
     Model for a chat file
 
     Attributes:
@@ -84,7 +86,8 @@ class ChatFile(models.Model):
         is_preprocessed: Whether the file has been preprocessed
         uploaded_at: The date and time the file was uploaded
         metadata: The metadata of the file
-    '''
+    """
+
     file: models.FileField = models.FileField(upload_to="media/chat", unique=True)
     filename = models.CharField(max_length=255, blank=True, null=False)
     channel = models.ForeignKey(
@@ -108,7 +111,7 @@ class ChatFile(models.Model):
 
 
 class Message(models.Model):
-    '''
+    """
     Model for a chat message.
 
     Attributes:
@@ -118,7 +121,8 @@ class Message(models.Model):
         message: The message text
         emotes: The emotes associated with the message
         sentiment_score: The sentiment score of the message
-    '''
+    """
+
     parent_log = models.ForeignKey(ChatFile, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(null=False, blank=False)
     username = models.CharField(
@@ -130,44 +134,19 @@ class Message(models.Model):
 
 
 class MessageEmote(models.Model):
-    '''
+    """
     Many-to-Many relationship between Message and Emote
-    to store the counts of each emote in a message 
+    to store the counts of each emote in a message
 
     Attributes:
         message: The message that the emote is associated with
         emote: The emote that is associated with the message
         count: The count of the emote in the message
-    '''
+    """
+
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     emote = models.ForeignKey(Emote, on_delete=models.CASCADE)
     count = models.IntegerField()
 
     class Meta:
         unique_together = ("message", "emote")
-
-
-class Task(models.Model):
-    '''
-    Model for an asynchronous task
-
-    Attributes:
-        task_id: The ID of the task
-        task_type: The type of the task
-        status: The status of the task
-        result: The result of the task
-    '''
-    task_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    task_type = models.CharField(max_length=255, default="No type")
-    status = models.CharField(max_length=20)
-    result = models.TextField(null=True, blank=True)
-    TICKET_STATUSES = [
-        ("PENDING", "Pending"),
-        ("IN_PROGRESS", "In Progress"),
-        ("COMPLETED", "Completed"),
-        ("FAILED", "Failed"),
-    ]
-
-    ticket = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    status = models.CharField(max_length=20, choices=TICKET_STATUSES, default="PENDING")
-    result = models.TextField(null=True, blank=True)

@@ -7,11 +7,17 @@ WORKDIR /app
 # Set environment variable
 ENV NODE_ENV=development
 
-# Copy package files
-COPY package*.json ./
+# Enable Corepack for package management
+RUN corepack enable
+
+# Copy package file
+COPY package.json ./
+
+# Copy pnpm lock file
+COPY pnpm-lock.yaml ./
 
 # Install dependencies
-RUN npm install
+RUN pnpm install
 
 # Copy application code
 COPY . .
@@ -20,4 +26,4 @@ COPY . .
 EXPOSE 3000
 
 # Start application in development mode
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "run", "dev"]

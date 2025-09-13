@@ -2,7 +2,7 @@ import requests
 from ..models import Emote, EmoteSet
 
 
-def build_emote_set(set_id: str) -> None:
+def build_emote_set(set_id: str):
     response = requests.get(f"http://7tv.io/v3/emote-sets/{set_id}", timeout=3)
     if response.status_code != 200:
         raise ConnectionError("Couldn't recover emote set, it may not exist.")
@@ -29,3 +29,5 @@ def build_emote_set(set_id: str) -> None:
     ]
 
     obj.emotes.set(emotes_list)  # Set the emotes for this EmoteSet
+    obj.save()
+    return obj

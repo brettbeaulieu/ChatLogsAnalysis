@@ -1,23 +1,24 @@
-'''
+"""
 Module for the EmoteSetViewSet class / EmoteSet views
-'''
+"""
 
 import requests
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from ..models import EmoteSet, Task
+from ..models import EmoteSet
 from ..serializers import EmoteSetSerializer
 from ..tasks import build_emote_set_task
 
 
 class EmoteSetViewSet(viewsets.ModelViewSet):
-    '''
+    """
     A view set for EmoteSet objects, with some
     custom actions to obtain and delete all instances,
     as well as to create a new emote set from a 7TV ID
-    '''
+    """
+
     queryset = EmoteSet.objects.all()
     serializer_class = EmoteSetSerializer
 
