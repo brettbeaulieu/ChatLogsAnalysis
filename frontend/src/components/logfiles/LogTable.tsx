@@ -1,4 +1,4 @@
-import { Group, Paper, Text } from "@mantine/core";
+import { Paper, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import {
 	MantineReactTable,

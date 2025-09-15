@@ -1,64 +1,47 @@
 .main {
-  width: 100%;
-  height: 100%;
-  background-color: var(--mantine-color-body);
-  border-radius: 0px;
-  z-index: 1;
+	width: 100%;
+	height: 100%;
+	background-color: var(--mantine-color-body);
+	border-radius: 0px;
+	z-index: 1;
 }
 
 .mainStack {
-  height: 100%;
-  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
-  margin: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+	height: 100%;
+	padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+	margin: var(--mantine-spacing-sm) var(--mantine-spacing-md);
 }
 
 .mainPaper {
-  width: 100%;
-  height: 100%;
-  background-color: var(--mantine-color-body);
-  border-radius: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: var(--mantine-color-body);
+	border-radius: 0px;
 }
 
 .headerGroup {
-  width: fit-content;
+	width: fit-content;
 }
 
 .select {
-  width: fit-content;
+	width: fit-content;
 }
 
 .mainGroup {
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  z-index: 2;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	z-index: 2;
 }
 
 .mainstack1,
 .mainstack2 {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 @media (min-width: 769px) {
-  .mainGroup {
-  }
-
-  .mainstack1 {
-  }
-  .mainstack2 {
-    justify-content: space-between;
-  }
-}
-
-@media (max-width: 768px) {
-  .mainGroup {
-  }
-
-  .mainstack1,
-  .mainstack2 {
-  }
-
-  .mainstack2 {
-  }
+	.mainstack2 {
+		justify-content: space-between;
+	}
 }

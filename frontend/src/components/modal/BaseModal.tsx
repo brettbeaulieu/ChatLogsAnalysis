@@ -7,7 +7,7 @@ interface BaseModalProps {
 }
 
 export const BaseModal = ({ title, children }: BaseModalProps) => {
-	const [opened, { open, close }] = useDisclosure(false);
+	const [opened, { close }] = useDisclosure(false);
 
 	return (
 		<Modal.Root opened={opened} onClose={close} centered>

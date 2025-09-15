@@ -11,11 +11,8 @@ export {
 } from "./apiHelpers";
 export {
 	CHANNELS_URL,
-	CHATFILES_URL,
-	EMOTES_URL,
 	EMOTESETS_URL,
 	MESSAGES_URL,
-	TASKS_URL,
 } from "./endpoints";
 export type {
 	Channel,

@@ -1,35 +1,35 @@
 .paramsPaper {
-  width: 100%;
-  z-index: 2;
-  border-radius: 0;
-  justify-content: center;
+	width: 100%;
+	z-index: 2;
+	border-radius: 0;
+	justify-content: center;
 }
 
 .paramsGroup {
-  z-index: 2;
+	z-index: 2;
 }
 
 .innerTextLabel {
-  font-weight: 300;
+	font-weight: 300;
 }
 
 .innerPaper {
-  z-index: 2;
-  width: clamp(10%, 50%, 100%);
-  flex: 1;
-  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
-  margin: 0;
+	z-index: 2;
+	width: clamp(10%, 50%, 100%);
+	flex: 1;
+	padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+	margin: 0;
 }
 
 .textLabel {
-  font-weight: 400;
+	font-weight: 400;
 }
 
 .select,
 .checkbox {
-  display: flex;
-  height: 36px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+	display: flex;
+	height: 36px;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
 }

@@ -1,7 +1,6 @@
 import { Paper, Select } from "@mantine/core";
 import type { Channel } from "@/api";
 import { DateMenu } from "@/components";
-import styles from "./ChannelDateGroup.module.css";
 
 type SetStateAction<T> = React.Dispatch<React.SetStateAction<T>>;
 
@@ -21,7 +20,7 @@ export function ChannelDateGroup({
 	channelList,
 	dateRange,
 	setDateRange,
-}: ChannelDateGroupProps) {
+}: Readonly<ChannelDateGroupProps>) {
 	const handleChannelOnChange = (newName: string | null): void => {
 		if (newName) {
 			const obj = channelList.find((x) => x.name === newName);
@@ -29,9 +28,9 @@ export function ChannelDateGroup({
 		}
 	};
 	return (
-		<Paper withBorder className={styles.paper} shadow="md">
+		<Paper p="md" withBorder>
 			<Select
-				classNames={{ input: styles.select, dropdown: styles.select }}
+				style={{ textAlign: "center" }}
 				data={channelList.map((elem: Channel) => elem.name)}
 				value={channel ? channel.name : ""}
 				placeholder="Select a channel"
