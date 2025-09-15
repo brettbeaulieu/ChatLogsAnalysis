@@ -20,7 +20,6 @@ import { useState } from "react";
 import type { EmoteSet } from "@/api";
 import { getData, postData } from "@/api/apiHelpers";
 import { BaseModal } from "@/components/modal/BaseModal";
-import styles from "./LogCreateModal.module.css";
 
 export interface PreprocessModalProps {
 	parentIds: Set<number>;
@@ -94,7 +93,7 @@ export function PreprocessModal({ parentIds }: Readonly<PreprocessModalProps>) {
 							<Accordion.Control>
 								{<Text size="xl">Format</Text>}
 							</Accordion.Control>
-							<Accordion.Panel className={styles.accordion_panel}>
+							<Accordion.Panel>
 								<Select
 									label="Log Format"
 									data={["Chatterino", "Rustlog"]}
@@ -107,7 +106,7 @@ export function PreprocessModal({ parentIds }: Readonly<PreprocessModalProps>) {
 							<Accordion.Control>
 								{<Text size="xl">Features</Text>}
 							</Accordion.Control>
-							<Accordion.Panel className={styles.accordion_panel}>
+							<Accordion.Panel>
 								<Stack>
 									<Checkbox
 										label={"Use Sentiment Analysis"}

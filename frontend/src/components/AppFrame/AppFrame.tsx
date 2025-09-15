@@ -1,22 +1,28 @@
 "use client";
 
-import { AppShell } from "@mantine/core";
+import { AppShell, type MantineTransition, Transition } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import type { ReactElement } from "react";
-import styles from "./AppFrame.module.css";
-import { Header } from "./components/Header/Header";
-import { Navbar } from "./components/Navbar/Navbar";
+import { Header } from "./Header";
+import { Navbar } from "./Navbar";
 
 interface AppFrameProps {
 	main: ReactElement;
 }
 
-export function AppFrame({ main }: AppFrameProps) {
+const slideY: MantineTransition = {
+	in: { transform: "translateY(0)" },
+	out: { transform: "translateY(-100%)" },
+	common: { transitionProperty: "transform" },
+	transitionProperty: "transform",
+};
+
+export function AppFrame({ main }: Readonly<AppFrameProps>) {
 	const [opened, { toggle }] = useDisclosure();
 
 	return (
 		<AppShell
-			header={{ height: 60 }}
+			header={{ height: "5rem" }}
 			navbar={{
 				width: 300,
 				breakpoint: "sm",
@@ -24,17 +30,17 @@ export function AppFrame({ main }: AppFrameProps) {
 			}}
 			padding="md"
 		>
-			<AppShell.Header className={styles.header}>
+			<AppShell.Header zIndex={102}>
 				<Header opened={opened} toggle={toggle} />
 			</AppShell.Header>
 
-			<AppShell.Navbar
-				py="lg"
-				className={`${styles.navbar} ${opened ? styles.opened : styles.closed}`}
-			>
-				<Navbar />
-			</AppShell.Navbar>
-
+			<Transition mounted={opened} transition={slideY} duration={500}>
+				{(tStyles) => (
+					<AppShell.Navbar py="lg" style={tStyles}>
+						<Navbar />
+					</AppShell.Navbar>
+				)}
+			</Transition>
 			<AppShell.Main>{main}</AppShell.Main>
 		</AppShell>
 	);

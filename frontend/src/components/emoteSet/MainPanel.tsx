@@ -2,9 +2,9 @@
 
 import { Paper } from "@mantine/core";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { EmoteSetTable } from "@/components/emoteSet/EmoteSetTable/EmoteSetTable";
+import { EmoteSetTable } from "@/components/emoteSet/EmoteSetTable";
 import { getEmoteSetsQuery } from "@/lib/query/emoteset";
-import { EmoteSetUpload } from "../EmoteSetUpload/EmoteSetUpload";
+import { EmoteSetUpload } from "./EmoteSetUpload";
 
 export default function MainPanel() {
 	const { data: emoteSets = [] } = useSuspenseQuery(getEmoteSetsQuery);

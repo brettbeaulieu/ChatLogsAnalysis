@@ -7,74 +7,74 @@ import {
 	useMantineReactTable,
 } from "mantine-react-table";
 import { useState } from "react";
-import type { Channel } from "@/api";
+import type { EmoteSet } from "@/api";
 import { RowActions } from "@/components/table/RowActions";
-import { useDelete, useUpdate } from "@/hooks/logfile";
-import type { Logfile } from "@/lib/types";
-import styles from "./LogTable.module.css";
-import { useColumns } from "./LogTableColumns";
+import { useDelete, useUpdate } from "@/hooks/emoteset";
+import { useColumns } from "./EmoteSetTableColumns";
 
-interface LogTableProps {
-	channels: Channel[];
-	logfiles: Logfile[];
+interface EmoteSetTableProps {
+	emoteSets: EmoteSet[];
 }
 
-function validateLogfile(input: Logfile) {
-	return {
-		filename: !input.filename ? "Filename is Required" : "",
-		channelId: !input.channel ? "Channel is Required" : "",
-	};
-}
+const validateEmoteSetName = (emoteSets: EmoteSet[], emoteSet: EmoteSet) => {
+	const newErrors: Record<string, string | null> = { name: null };
+	if (!emoteSet.name || emoteSet.name.trim() === "") {
+		newErrors.name = "Name is required";
+	} else if (emoteSets.map((es) => es.name).includes(emoteSet.name.trim())) {
+		newErrors.name = "Name must be unique";
+	} else {
+		newErrors.name = null;
+	}
+	return newErrors;
+};
 
-export function LogTable({ channels, logfiles }: Readonly<LogTableProps>) {
+export function EmoteSetTable({ emoteSets }: Readonly<EmoteSetTableProps>) {
 	// CRUD hooks
-	const { mutateAsync: updateLog, isPending: isUpdating } = useUpdate();
-	const { mutateAsync: deleteLog, isPending: isDeleting } = useDelete();
+	const { mutateAsync: updateSet, isPending: isUpdating } = useUpdate();
+	const { mutateAsync: deleteSet, isPending: isDeleting } = useDelete();
 
 	// Columns
 	const [errors, setErrors] = useState<Record<string, string | null>>({
 		name: null,
 	});
 	const columns = useColumns({
-		channels,
 		errors: errors,
 		setErrors: setErrors,
 	});
 
-	const handleSave: MRT_TableOptions<Logfile>["onEditingRowSave"] = async ({
+	const handleSave: MRT_TableOptions<EmoteSet>["onEditingRowSave"] = async ({
 		values,
 		table: tableObj,
 	}) => {
-		const newErrors = validateLogfile({ ...values });
+		const newErrors = validateEmoteSetName(emoteSets, { ...values });
 		if (Object.values(newErrors).some((error) => error)) {
 			setErrors(newErrors);
 			return;
 		}
 		setErrors({});
-		await updateLog({ id: values.id, name: values.filename });
+		await updateSet({ id: values.id, name: values.name });
 		tableObj.setEditingRow(null);
 	};
-	const openDeleteConfirmModal = (row: MRT_Row<Logfile>) => {
+	const openDeleteConfirmModal = (row: MRT_Row<EmoteSet>) => {
 		modals.openConfirmModal({
-			title: "Are you sure you want to delete this logfile?",
+			title: "Are you sure you want to delete this emote set?",
 			children: (
 				<Text>
-					Are you sure you want to delete {row.original.filename}? This action
+					Are you sure you want to delete {row.original.name}? This action
 					cannot be undone.
 				</Text>
 			),
 			labels: { confirm: "Delete", cancel: "Cancel" },
 			confirmProps: { color: "red" },
 			onConfirm: () => {
-				deleteLog(row.original.id);
+				deleteSet(row.original.id);
 			},
 		});
 	};
 
 	const table = useMantineReactTable({
 		columns,
-		data: logfiles,
-		editDisplayMode: "row",
+		data: emoteSets,
 		enableEditing: true,
 		enableRowSelection: true,
 		enableRowActions: true,
@@ -94,11 +94,9 @@ export function LogTable({ channels, logfiles }: Readonly<LogTableProps>) {
 	});
 
 	return (
-		<Paper className={styles.mainPaper} withBorder>
-			<Group mb="md">
-				<Text className={styles.filesHeader}>
-					Uploaded Files ({logfiles.length})
-				</Text>
+		<Paper p="md" withBorder>
+			<Group>
+				<Text>Uploaded Emote Sets ({emoteSets.length})</Text>
 			</Group>
 			<MantineReactTable table={table} />
 		</Paper>

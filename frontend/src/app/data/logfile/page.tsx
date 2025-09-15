@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { AppFrame } from "@/components/AppFrame/AppFrame";
-import MainPanel from "@/components/logfiles/MainPanel/MainPanel";
+import MainPanel from "@/components/logfiles/MainPanel";
 import { getChannelsQuery } from "@/lib/query/channel";
 import { getQueryClient } from "@/lib/query/get-client";
 import { getLogfilesQuery } from "@/lib/query/logfile";

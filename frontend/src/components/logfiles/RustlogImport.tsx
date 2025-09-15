@@ -6,8 +6,7 @@ import { hasLength, useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import { useChannels, useLogGrab } from "@/hooks/rustlog";
-import { RepoNameValidate } from "../RepoNameValidate/RepoNameValidate";
-import styles from "./RustlogImport.module.css";
+import { RepoNameValidate } from "./RepoNameValidate";
 
 export function RustlogImport() {
 	const [repoName, setRepoName] = useState("");
@@ -50,12 +49,13 @@ export function RustlogImport() {
 
 	return (
 		<form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-			<Paper className={styles.inner_paper} withBorder>
-				<Stack justify={"space-between"}>
-					<Text className={styles.centered_header}>
-						Import From Rustlog API
-					</Text>
-					<Group align={"flex-end"} className={styles.paramsGroup}>
+			<Paper
+				style={{ padding: "var(--mantine-spacing-md)", width: "fit-content" }}
+				withBorder
+			>
+				<Stack>
+					<Text style={{ textAlign: "center" }}>Import From Rustlog API</Text>
+					<Group align={"flex-end"}>
 						<RepoNameValidate repoName={repoName} setRepoName={setRepoName} />
 						<Select
 							{...form.getInputProps("channelName")}
@@ -69,14 +69,13 @@ export function RustlogImport() {
 							nothingFoundMessage={"No channels found"}
 						/>
 						<DatePickerInput
+							valueFormat="MM-DD-YYYY"
 							{...form.getInputProps("dateRange")}
 							label={"Time Range"}
 							type={"range"}
 							allowSingleDateInRange
 						/>
-						<Button type="submit" classNames={{ label: styles.submitLabel }}>
-							Submit
-						</Button>
+						<Button type="submit">Submit</Button>
 					</Group>
 				</Stack>
 			</Paper>

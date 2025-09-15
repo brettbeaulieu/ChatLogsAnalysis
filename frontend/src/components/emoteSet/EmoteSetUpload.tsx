@@ -1,7 +1,6 @@
 import { Button, Paper, Stack, Text, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { useCreate } from "@/hooks/emoteset";
-import styles from "./EmoteSetUpload.module.css";
 
 export function EmoteSetUpload() {
 	const { mutateAsync: createEmoteSet, isPending } = useCreate();
@@ -25,9 +24,9 @@ export function EmoteSetUpload() {
 	};
 
 	return (
-		<Paper className={styles.inner_paper} withBorder>
-			<Stack className={styles.inner_paper_stack}>
-				<Text className={styles.centered_header}>Import Emote Set URL</Text>
+		<Paper p="md" withBorder>
+			<Stack>
+				<Text>Import Emote Set URL</Text>
 				<TextInput
 					label={"Emote Set ID/URL"}
 					value={inputURL}
