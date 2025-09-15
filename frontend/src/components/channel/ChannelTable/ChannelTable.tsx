@@ -78,7 +78,9 @@ export function ChannelTable({ channels }: Readonly<ChannelTableProps>) {
 			),
 			labels: { confirm: "Delete", cancel: "Cancel" },
 			confirmProps: { color: "red" },
-			onConfirm: () => deleteC(row.original.id),
+			onConfirm: () => {
+				deleteC(row.original.id);
+			},
 		});
 	};
 
@@ -120,9 +122,7 @@ export function ChannelTable({ channels }: Readonly<ChannelTableProps>) {
 	return (
 		<Paper className={styles.mainPaper} withBorder>
 			<Group mb="md">
-				<Text className={styles.filesHeader}>
-					Channels ({channels.length})
-				</Text>
+				<Text className={styles.filesHeader}>Channels ({channels.length})</Text>
 			</Group>
 			<MantineReactTable table={table} />
 		</Paper>

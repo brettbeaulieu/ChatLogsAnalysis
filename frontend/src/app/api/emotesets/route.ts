@@ -1,0 +1,72 @@
+import { NextResponse } from "next/server";
+
+export const GET = async () => {
+	try {
+		// Fetch emote sets from backend:8000
+		const response = await fetch("http://backend:8000/api/emotesets", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		if (!response.ok) {
+			const errorData = await response.json();
+			return NextResponse.json(errorData, {
+				status: response.status,
+			});
+		}
+		const data = await response.json();
+		return NextResponse.json(data, { status: 200 });
+	} catch (error) {
+		console.error("Error in /api/emotesets GET:", error);
+		return NextResponse.json(
+			{ error: "Internal Server Error" },
+			{
+				status: 500,
+			},
+		);
+	}
+};
+
+export const POST = async (request: Request) => {
+	try {
+		const body = await request.json();
+		// send to backend:8000 to create the channel
+		const response = await fetch("http://backend:8000/api/emotesets/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(body),
+		});
+		if (!response.ok) {
+			return NextResponse.json(
+				{ error: "Failed to create emote set" },
+				{
+					status: 500,
+				},
+			);
+		}
+		const data = await response.json();
+		return NextResponse.json(data, { status: 201 });
+	} catch (error) {
+		if (error instanceof Error) {
+			return new NextResponse(
+				JSON.stringify({
+					error: `Failed to create emote set: ${error.toString()}`,
+				}),
+				{
+					status: 500,
+				},
+			);
+		}
+		return new NextResponse(
+			JSON.stringify({
+				error: `Failed to create emote set: ${(error as Error).toString()}`,
+			}),
+			{
+				status: 500,
+			},
+		);
+	}
+};
