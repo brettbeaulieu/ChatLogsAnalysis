@@ -1,9 +1,8 @@
 "use client";
 
-import type { MRT_ColumnDef } from "mantine-react-table";
+import type { MRT_Cell, MRT_ColumnDef } from "mantine-react-table";
 import { useMemo } from "react";
-import type { Emote, EmoteSet } from "@/api/model_interfaces";
-import type { Channel } from "@/lib/types";
+import type { Channel, Emote, EmoteSet } from "@/lib/types";
 
 export function useColumns({
 	errors,
@@ -42,7 +41,7 @@ export function useColumns({
 			{
 				accessorKey: "channels",
 				header: "Channels",
-				Cell: ({ cell }) => (
+				Cell: ({ cell }: { cell: MRT_Cell<EmoteSet, Channel[]> }) => (
 					<div>
 						{cell.getValue().map((channel: Channel) => (
 							<div key={channel.id}>{channel.name}</div>
@@ -53,7 +52,7 @@ export function useColumns({
 			{
 				accessorKey: "emotes",
 				header: "Emotes",
-				Cell: ({ cell }) => (
+				Cell: ({ cell }: { cell: MRT_Cell<EmoteSet, Emote[]> }) => (
 					<div>
 						{cell.getValue().map((emote: Emote) => (
 							<div key={emote.id}>{emote.name}</div>

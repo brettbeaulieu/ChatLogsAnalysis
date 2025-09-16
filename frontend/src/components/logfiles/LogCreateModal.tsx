@@ -17,9 +17,9 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconScanEye } from "@tabler/icons-react";
 import { useState } from "react";
-import type { EmoteSet } from "@/api";
 import { getData, postData } from "@/api/apiHelpers";
 import { BaseModal } from "@/components/modal/BaseModal";
+import type { EmoteSet } from "@/lib/types";
 
 export interface PreprocessModalProps {
 	parentIds: Set<number>;

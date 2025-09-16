@@ -1,7 +1,8 @@
 import { AreaChart, type AreaChartType, BarChart } from "@mantine/charts";
 import { Group, Paper, Skeleton, Stack, Text } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getData, toIsoDateString } from "@/api/apiHelpers";
+import { getData } from "@/api/apiHelpers";
+import { toIsoDateString } from "@/lib/date_utils";
 import type { Channel } from "@/lib/types";
 import styles from "./InteractiveAreaChart.module.css";
 

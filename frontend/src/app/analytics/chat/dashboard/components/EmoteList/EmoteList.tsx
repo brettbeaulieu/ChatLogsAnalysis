@@ -1,6 +1,7 @@
 import { Image, Paper, Skeleton, Table, Text } from "@mantine/core";
 import { type ReactElement, useCallback, useEffect, useState } from "react";
-import { getData, toIsoDateString } from "@/api/apiHelpers";
+import { getData } from "@/api/apiHelpers";
+import { toIsoDateString } from "@/lib/date_utils";
 import type { Channel } from "@/lib/types";
 import styles from "./EmoteList.module.css";
 

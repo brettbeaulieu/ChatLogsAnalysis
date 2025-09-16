@@ -1,7 +1,7 @@
 import { Button, Popover } from "@mantine/core";
 import { DatePicker, type DateValue } from "@mantine/dates";
 import type React from "react";
-import { toIsoDateString } from "@/api/apiHelpers";
+import { toIsoDateString } from "@/lib/date_utils";
 import styles from "./DateMenu.module.css";
 
 export interface DataStruct {
@@ -12,7 +12,7 @@ export interface DataStruct {
 
 export interface DateMenuProps {
 	dateRange: [DateValue, DateValue];
-	dateChange: React.Dispatch<React.SetStateAction<[Date | null, Date | null]>>;
+	dateChange: React.Dispatch<React.SetStateAction<[DateValue, DateValue]>>;
 }
 
 export function DateMenu({ dateRange, dateChange }: Readonly<DateMenuProps>) {

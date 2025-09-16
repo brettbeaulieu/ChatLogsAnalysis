@@ -1,10 +1,10 @@
 import { Group, Loader, Paper, Select, Stack, Text } from "@mantine/core";
 import type React from "react";
 import { type ReactElement, useEffect, useState } from "react";
-import { CHANNELS_URL, EMOTESETS_URL, type Emote, type EmoteSet } from "@/api";
+import { CHANNELS_URL, EMOTESETS_URL } from "@/api";
 import { getData } from "@/api/apiHelpers";
 import { DateMenu } from "@/components";
-import type { Channel } from "@/lib/types";
+import type { Channel, Emote, EmoteSet } from "@/lib/types";
 import styles from "./ParametersGroup.module.css";
 
 type SetStateAction<T> = React.Dispatch<React.SetStateAction<T>>;

@@ -1,4 +1,5 @@
 import { Paper, Select } from "@mantine/core";
+import type { DateValue } from "@mantine/dates";
 import { DateMenu } from "@/components";
 import type { Channel } from "@/lib/types";
 
@@ -11,7 +12,7 @@ interface ChannelDateGroupProps {
 	channelList: Channel[];
 
 	dateRange: [Date | null, Date | null];
-	setDateRange: SetStateAction<[Date | null, Date | null]>;
+	setDateRange: SetStateAction<[DateValue, DateValue]>;
 }
 
 export function ChannelDateGroup({

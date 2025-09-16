@@ -13,13 +13,10 @@ import React, {
 	useEffect,
 	useState,
 } from "react";
-import { type Emote, MESSAGES_URL, type Message } from "@/api";
-import {
-	createMessageFromData,
-	getData,
-	toIsoDateString,
-} from "@/api/apiHelpers";
-import type { Channel } from "@/lib/types";
+import { MESSAGES_URL } from "@/api";
+import { getData } from "@/api/apiHelpers";
+import { toIsoDateString } from "@/lib/date_utils";
+import type { Channel, Emote, Message } from "@/lib/types";
 import { ParametersGroup } from "./components";
 import styles from "./MainPanel.module.css";
 
@@ -56,7 +53,17 @@ export default function MainPanel() {
 				page_size: PAGE_SIZE,
 			});
 			const data = (await response.json()).results;
-			setMessages(data.map(createMessageFromData));
+			setMessages(
+				data.map((item: Message) => ({
+					id: item.id,
+					parent_log: item.parent_log,
+					timestamp: new Date(item.timestamp),
+					username: item.username,
+					message: item.message,
+					emotes: item.emotes,
+					sentiment_score: item.sentiment_score,
+				})),
+			);
 			setTotalPages(Math.ceil(data.count / PAGE_SIZE));
 		};
 		fetchMessages(page);

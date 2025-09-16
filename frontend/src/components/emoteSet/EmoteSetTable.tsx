@@ -7,9 +7,9 @@ import {
 	useMantineReactTable,
 } from "mantine-react-table";
 import { useState } from "react";
-import type { EmoteSet } from "@/api";
 import { RowActions } from "@/components/table/RowActions";
 import { useDelete, useUpdate } from "@/hooks/emoteset";
+import type { EmoteSet } from "@/lib/types";
 import { useColumns } from "./EmoteSetTableColumns";
 
 interface EmoteSetTableProps {
