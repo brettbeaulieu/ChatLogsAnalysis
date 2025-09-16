@@ -26,6 +26,10 @@ export const useUpdate = () => {
 	return useMutation({
 		...updateLogfileMutation,
 		onSuccess: () => {
+			notifications.show({
+				title: "Logfile Updated",
+				message: "The logfile was updated successfully.",
+			});
 			queryClient.invalidateQueries(getLogfilesQuery);
 		},
 	});
@@ -36,6 +40,10 @@ export const useDelete = () => {
 	return useMutation({
 		...deleteLogfileMutation,
 		onSuccess: () => {
+			notifications.show({
+				title: "Logfile Deleted",
+				message: "The logfile was deleted successfully.",
+			});
 			queryClient.invalidateQueries(getLogfilesQuery);
 		},
 	});

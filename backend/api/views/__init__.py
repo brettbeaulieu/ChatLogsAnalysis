@@ -8,3 +8,4 @@ from .emote_views import *
 from .emote_set_views import *
 from .channel_views import *
 from .rustlog_views import *
+from .task_views import *

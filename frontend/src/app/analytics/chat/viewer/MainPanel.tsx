@@ -13,12 +13,13 @@ import React, {
 	useEffect,
 	useState,
 } from "react";
-import { type Channel, type Emote, MESSAGES_URL, type Message } from "@/api";
+import { type Emote, MESSAGES_URL, type Message } from "@/api";
 import {
 	createMessageFromData,
 	getData,
 	toIsoDateString,
 } from "@/api/apiHelpers";
+import type { Channel } from "@/lib/types";
 import { ParametersGroup } from "./components";
 import styles from "./MainPanel.module.css";
 

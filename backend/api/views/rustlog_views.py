@@ -32,13 +32,14 @@ class RustlogViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        HTTPS_PREFIX = "https://"
         # If it's currently http://, change to https://
         if repo_url.startswith("http://"):
-            repo_url = repo_url.replace("http://", "https://")
+            repo_url = repo_url.replace("http://", HTTPS_PREFIX)
 
         # If there's no https:// prefix, add it
-        if not repo_url.startswith("https://"):
-            repo_url = "https://" + repo_url
+        if not repo_url.startswith(HTTPS_PREFIX):
+            repo_url = HTTPS_PREFIX + repo_url
 
         # Perform the GET request to the channels endpoint
         try:
@@ -104,7 +105,7 @@ class RustlogViewSet(viewsets.ViewSet):
         return Response(
             {
                 "message": "Successfully enqueued file for preprocessing",
-                "ticket": str(result.id),
+                "task_id": str(result.id),
             },
             status=status.HTTP_200_OK,
         )

@@ -15,10 +15,7 @@ export {
 	MESSAGES_URL,
 } from "./endpoints";
 export type {
-	Channel,
 	Emote,
 	EmoteSet,
-	Logfile as ChatFile,
 	Message,
-	Task,
 } from "./model_interfaces";

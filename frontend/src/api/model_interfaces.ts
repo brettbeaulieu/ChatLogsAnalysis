@@ -1,12 +1,9 @@
 // Model Interfaces
 
+import type { Channel } from "@/lib/types";
+
 interface BaseRow {
 	id: number;
-}
-
-export interface Channel extends BaseRow {
-	name: string;
-	name_lower: string;
 }
 
 export interface Emote extends BaseRow {
@@ -37,10 +34,4 @@ export interface Message extends BaseRow {
 	message: string;
 	emotes: Emote[];
 	sentiment_score?: number;
-}
-
-export interface Task extends BaseRow {
-	ticket: string;
-	status: string;
-	result: string;
 }

@@ -1,7 +1,7 @@
 import { Image, Paper, Skeleton, Table, Text } from "@mantine/core";
 import { type ReactElement, useCallback, useEffect, useState } from "react";
-import type { Channel } from "@/api";
 import { getData, toIsoDateString } from "@/api/apiHelpers";
+import type { Channel } from "@/lib/types";
 import styles from "./EmoteList.module.css";
 
 const API_STRING = "https://cdn.7tv.app/emote/";

@@ -2,9 +2,10 @@
 
 import { Group, Paper, Stack } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { CHANNELS_URL, type Channel, getData } from "@/api";
+import { CHANNELS_URL, getData } from "@/api";
 import { InteractiveAreaChart, StatsGrid } from "@/components";
 import { ChannelDateGroup } from "@/components/channel/ChannelDateGroup";
+import type { Channel } from "@/lib/types";
 import { EmoteList, ParametersGroup } from "./components";
 import styles from "./MainPanel.module.css";
 

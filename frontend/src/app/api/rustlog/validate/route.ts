@@ -1,10 +1,12 @@
+import { NextResponse } from "next/server";
+
 // expects response type { valid: boolean, channels: string[] }
-export const GET = async (request: Request) => {
+const getRoute = async (request: Request) => {
 	const { searchParams } = new URL(request.url);
 	const repoUrl = searchParams.get("repo_url");
 	if (!repoUrl) {
-		return new Response(
-			JSON.stringify({ error: "Missing repo_url parameter" }),
+		return NextResponse.json(
+			{ error: "Missing repo_url parameter" },
 			{ status: 400 },
 		);
 	}
@@ -18,14 +20,14 @@ export const GET = async (request: Request) => {
 		}
 
 		const data = (await response.json()).data;
-		return new Response(
-			JSON.stringify({ valid: data.valid, channels: data.channels }),
+		return NextResponse.json(
+			{ valid: data.valid, channels: data.channels },
 			{ status: 200 },
 		);
 	} catch (error) {
 		console.error("Error fetching channels:", error);
-		return new Response(JSON.stringify({ valid: false, channels: [] }), {
-			status: 500,
-		});
+		return NextResponse.json({ valid: false, channels: [] }, { status: 500 });
 	}
 };
+
+export { getRoute as GET };

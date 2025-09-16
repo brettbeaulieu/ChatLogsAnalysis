@@ -1,13 +1,10 @@
-import {
-	mutationOptions,
-	type QueryClient,
-	queryOptions,
-} from "@tanstack/react-query";
+import { mutationOptions, queryOptions } from "@tanstack/react-query";
+import { API_URL } from "@/lib/constants";
 
 export const getChannelsQuery = queryOptions({
 	queryKey: ["channels"],
 	queryFn: async () => {
-		const response = await fetch("http://localhost:3000/api/channels/", {
+		const response = await fetch(`${API_URL}/channels/`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -24,7 +21,7 @@ export const getChannelsQuery = queryOptions({
 export const updateChannelMutation = mutationOptions({
 	mutationKey: ["setChannelName"],
 	mutationFn: async ({ id, name }: { id: number; name: string }) => {
-		const response = await fetch(`http://localhost:3000/api/channels/${id}/`, {
+		const response = await fetch(`${API_URL}/channels/${id}/`, {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
@@ -37,16 +34,12 @@ export const updateChannelMutation = mutationOptions({
 		}
 		return response.json();
 	},
-	onSuccess: (_data, _variables, context: { queryClient: QueryClient }) => {
-		// Invalidate the channels query to refetch the updated data
-		context?.queryClient.invalidateQueries(getChannelsQuery);
-	},
 });
 
 export const deleteChannelMutation = mutationOptions({
 	mutationKey: ["deleteChannel"],
 	mutationFn: async (id: number) => {
-		const response = await fetch(`http://localhost:3000/api/channels/${id}/`, {
+		const response = await fetch(`${API_URL}/channels/${id}/`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
@@ -57,16 +50,12 @@ export const deleteChannelMutation = mutationOptions({
 			throw new Error("Failed to delete channel");
 		}
 	},
-	onSuccess: (_data, _variables, context: { queryClient: QueryClient }) => {
-		// Invalidate the channels query to refetch the updated data
-		context?.queryClient.invalidateQueries(getChannelsQuery);
-	},
 });
 
 export const createChannelMutation = mutationOptions({
 	mutationKey: ["createChannel"],
 	mutationFn: async (name: string) => {
-		const response = await fetch("http://localhost:3000/api/channels/", {
+		const response = await fetch(`${API_URL}/channels/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -78,9 +67,5 @@ export const createChannelMutation = mutationOptions({
 			throw new Error("Failed to create channel");
 		}
 		return response.json();
-	},
-	onSuccess: (_data, _variables, context: { queryClient: QueryClient }) => {
-		// Invalidate the channels query to refetch the updated data
-		context?.queryClient.invalidateQueries(getChannelsQuery);
 	},
 });

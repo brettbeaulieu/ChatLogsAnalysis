@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const GET = async () => {
+const getRoute = async () => {
 	try {
 		// Fetch chat files from backend:8000
 		const response = await fetch("http://backend:8000/api/chatfiles", {
@@ -16,3 +16,5 @@ export const GET = async () => {
 		return NextResponse.error();
 	}
 };
+
+export { getRoute as GET };

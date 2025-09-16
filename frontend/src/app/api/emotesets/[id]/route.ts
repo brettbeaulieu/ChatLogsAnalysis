@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const PATCH = async (
+const patchRoute = async (
 	request: Request,
 	{ params }: { params: { id: string } },
 ) => {
@@ -9,9 +9,7 @@ export const PATCH = async (
 
 		const id = params.id;
 		if (!id) {
-			return new Response(JSON.stringify({ error: "id is required" }), {
-				status: 400,
-			});
+			return NextResponse.json({ error: "id is required" }, { status: 400 });
 		}
 
 		// send to backend:8000 to update the emote set name
@@ -24,21 +22,19 @@ export const PATCH = async (
 		});
 
 		if (!response.ok) {
-			return new Response(
-				JSON.stringify({ error: "Failed to update emote set" }),
-				{
-					status: 500,
-				},
+			return NextResponse.json(
+				{ error: "Failed to update emote set" },
+				{ status: 500 },
 			);
 		}
 
 		const data = await response.json();
 		return NextResponse.json(data, { status: 200 });
 	} catch (error) {
-		return new NextResponse(
-			JSON.stringify({
+		return NextResponse.json(
+			{
 				error: `Failed to update emote set: ${(error as Error).toString()}`,
-			}),
+			},
 			{
 				status: 500,
 			},
@@ -46,7 +42,7 @@ export const PATCH = async (
 	}
 };
 
-export const DELETE = async (
+const deleteRoute = async (
 	_request: Request,
 	{ params }: { params: { id: string } },
 ) => {
@@ -86,3 +82,6 @@ export const DELETE = async (
 		return NextResponse.json({ error: errStr }, { status: 500 });
 	}
 };
+
+export { patchRoute as PATCH };
+export { deleteRoute as DELETE };

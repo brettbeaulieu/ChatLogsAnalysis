@@ -1,11 +1,12 @@
-// TODO: should return a ticket id after requesting rustlog data grab
-export const POST = async (request: Request) => {
+import { NextResponse } from "next/server";
+
+const postRoute = async (request: Request) => {
 	const { repo_name, channel_name, start_date, end_date } =
 		await request.json();
 
 	if (!repo_name || !channel_name || !start_date || !end_date) {
-		return new Response(
-			JSON.stringify({ error: "Missing required parameters" }),
+		return NextResponse.json(
+			{ error: "Missing required parameters" },
 			{ status: 400 },
 		);
 	}
@@ -19,12 +20,14 @@ export const POST = async (request: Request) => {
 			throw new Error(`Error fetching Rustlog data: ${response.statusText}`);
 		}
 		const data = await response.json();
-		return new Response(JSON.stringify(data), { status: 200 });
+		return NextResponse.json(data, { status: 200 });
 	} catch (error) {
 		console.error("Error fetching Rustlog data:", error);
-		return new Response(
-			JSON.stringify({ error: "Failed to fetch Rustlog data" }),
+		return NextResponse.json(
+			{ error: "Failed to fetch Rustlog data" },
 			{ status: 500 },
 		);
 	}
 };
+
+export { postRoute as POST };

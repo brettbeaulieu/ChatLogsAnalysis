@@ -1,6 +1,6 @@
 import { Paper, Select } from "@mantine/core";
-import type { Channel } from "@/api";
 import { DateMenu } from "@/components";
+import type { Channel } from "@/lib/types";
 
 type SetStateAction<T> = React.Dispatch<React.SetStateAction<T>>;
 

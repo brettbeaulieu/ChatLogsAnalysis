@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const GET = async () => {
+const getRoute = async () => {
 	try {
 		// Fetch channels from backend:8000
 		const response = await fetch("http://backend:8000/api/channels", {
@@ -28,7 +28,7 @@ export const GET = async () => {
 	}
 };
 
-export const POST = async (request: Request) => {
+const postRoute = async (request: Request) => {
 	try {
 		const body = await request.json();
 		// send to backend:8000 to create the channel
@@ -60,3 +60,6 @@ export const POST = async (request: Request) => {
 		);
 	}
 };
+
+export { getRoute as GET };
+export { postRoute as POST };

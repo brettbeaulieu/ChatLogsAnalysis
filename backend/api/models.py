@@ -1,14 +1,9 @@
 """
-Module to define the Model objects. These objects will likewise define our database
+Module to define the Model objects. These objects will define our database
 """
 
 import os
-import uuid
-
 from django.db import models
-from django.forms import ValidationError
-
-# Create your models here.
 
 
 class Channel(models.Model):
@@ -16,27 +11,17 @@ class Channel(models.Model):
     Model for a user's Channel
 
     Attributes:
+        id: The unique identifier for the channel
         name: The name of the channel
-        name_lower: The lowercase version of the channel name (automatically generated)
     """
 
+    objects = models.Manager()
+    id = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=255, blank=False, null=False, unique=True, default="Untitled Channel"
     )
-    name_lower = models.CharField(
-        max_length=255, blank=False, null=False, unique=True, default="untitled channel"
-    )
 
     def save(self, *args, **kwargs):
-        if not self.name:
-            self.name = str(uuid.uuid4())
-        self.name_lower = self.name.lower()  # Convert name to lowercase for uniqueness
-        if (
-            Channel.objects.exclude(id=self.id)
-            .filter(name_lower=self.name_lower)
-            .exists()
-        ):
-            raise ValidationError("A channel with this name already exists.")
         super().save(*args, **kwargs)  # Call the superclass save() method
 
 
@@ -54,6 +39,7 @@ class Emote(models.Model):
         emote_id: The ID of the emote on 7TV
     """
 
+    objects = models.Manager()
     name = models.TextField(blank=False)
     emote_id = models.TextField(blank=False)
 
@@ -65,10 +51,11 @@ class EmoteSet(models.Model):
     Attributes:
         name: The name of the emote set
         set_id: The ID of the emote set on 7TV
-        chanels: The channels that the emote set is associated with
+        channels: The channels that the emote set is associated with
         emotes: The emotes that the emote set contains
     """
 
+    objects = models.Manager()
     name = models.TextField(blank=False)
     set_id = models.TextField(blank=False, unique=True)
     channels = models.ManyToManyField(Channel, related_name="emote_sets_associated")
@@ -88,6 +75,7 @@ class ChatFile(models.Model):
         metadata: The metadata of the file
     """
 
+    objects = models.Manager()
     file: models.FileField = models.FileField(upload_to="media/chat", unique=True)
     filename = models.CharField(max_length=255, blank=True, null=False)
     channel = models.ForeignKey(
@@ -123,6 +111,7 @@ class Message(models.Model):
         sentiment_score: The sentiment score of the message
     """
 
+    objects = models.Manager()
     parent_log = models.ForeignKey(ChatFile, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(null=False, blank=False)
     username = models.CharField(
@@ -144,6 +133,7 @@ class MessageEmote(models.Model):
         count: The count of the emote in the message
     """
 
+    objects = models.Manager()
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     emote = models.ForeignKey(Emote, on_delete=models.CASCADE)
     count = models.IntegerField()

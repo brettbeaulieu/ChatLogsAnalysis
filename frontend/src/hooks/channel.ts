@@ -18,7 +18,6 @@ export const useCreate = () => {
 					message: `Ticket: ${data.ticket}`,
 				});
 				queryClient.invalidateQueries(getChannelsQuery);
-				// close(); // Removed undefined function call
 			},
 		},
 		queryClient,
@@ -30,6 +29,10 @@ export const useUpdate = () => {
 	return useMutation({
 		...updateChannelMutation,
 		onSuccess: () => {
+			notifications.show({
+				title: "Channel Updated",
+				message: "The channel was updated successfully.",
+			});
 			queryClient.invalidateQueries(getChannelsQuery);
 		},
 	});
@@ -40,6 +43,10 @@ export const useDelete = () => {
 	return useMutation({
 		...deleteChannelMutation,
 		onSuccess: () => {
+			notifications.show({
+				title: "Channel Deleted",
+				message: "The channel was deleted successfully.",
+			});
 			queryClient.invalidateQueries(getChannelsQuery);
 		},
 	});

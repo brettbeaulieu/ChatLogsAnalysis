@@ -33,15 +33,12 @@ class EmoteSetViewSet(viewsets.ModelViewSet):
                 {"error": "ID validation failed"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Create a new task
-        task = Task.objects.create(status="PENDING")
-
-        build_emote_set_task.delay(new_id, task.ticket)
+        result = build_emote_set_task.delay(new_id)
 
         return Response(
             {
                 "message": "Successfully enqueued emote set creation",
-                "ticket": str(task.ticket),
+                "task_id": str(result.id),
             },
             status=status.HTTP_200_OK,
         )

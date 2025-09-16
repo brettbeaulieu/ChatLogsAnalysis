@@ -8,8 +8,9 @@ import {
 } from "@mantine/core";
 import { IconMessage, IconUser } from "@tabler/icons-react";
 import { type ReactElement, useCallback, useEffect, useState } from "react";
-import { type Channel, MESSAGES_URL } from "@/api";
+import { MESSAGES_URL } from "@/api";
 import { getData, toIsoDateString } from "@/api/apiHelpers";
+import type { Channel } from "@/lib/types";
 import styles from "./StatsGrid.module.css";
 
 export interface DataStruct {

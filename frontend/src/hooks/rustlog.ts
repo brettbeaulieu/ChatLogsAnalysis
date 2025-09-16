@@ -1,6 +1,8 @@
 import { notifications } from "@mantine/notifications";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { getLogfilesQuery } from "@/lib/query/logfile";
+import { taskStatusQuery } from "@/lib/query/task";
 
 type ValidateResponse = {
 	valid: boolean;
@@ -90,6 +92,36 @@ export const useChannels = (repoUrl: string) => {
 
 export const useLogGrab = () => {
 	const queryClient = useQueryClient();
+	const [taskId, setTaskId] = useState<string | null>(null);
+	const statusQuery = useQuery(taskStatusQuery(taskId ?? ""));
+
+	useEffect(() => {
+		const status = statusQuery.data?.status;
+		if (!status) {
+			return;
+		}
+
+		if (status === "SUCCESS") {
+			queryClient.invalidateQueries(getLogfilesQuery);
+			notifications.show({
+				title: "Log Grab Complete",
+				message: "The log grabbing process completed successfully.",
+			});
+			setTaskId(null);
+		}
+	}, [statusQuery.data, queryClient]);
+
+	useEffect(() => {
+		if (!statusQuery.error) {
+			return;
+		}
+		notifications.show({
+			title: "Log Grab Failed",
+			message: statusQuery.error.message,
+			color: "red",
+		});
+		setTaskId(null);
+	}, [statusQuery.error]);
 
 	return useMutation(
 		{
@@ -108,33 +140,23 @@ export const useLogGrab = () => {
 					},
 				});
 
-				notifications.show({
-					title: "Log Grab Initiated",
-					message: "Your request to grab logs has been sent.",
-					color: "blue",
-				});
-
 				if (!response.ok) {
 					throw new Error("Failed to grab logs");
 				}
 				return response.json();
 			},
-			onSuccess: () => {
-				// update the logfiles list after a successful grab
-				queryClient.invalidateQueries(getLogfilesQuery);
+			onSuccess: ({ task_id }) => {
 				notifications.show({
-					title: "Success",
-					message: "Logs grabbed successfully",
-					color: "green",
+					title: "Log Grab Started",
+					message: "The log grabbing process has started.",
+					color: "blue",
 				});
+				setTaskId(task_id);
 			},
-			onError: (error) => {
-				if (error instanceof Error) {
-					console.error("Log grab error:", error.message);
-				}
+			onError: (error: Error) => {
 				notifications.show({
-					title: "Error",
-					message: "An error occurred while grabbing logs",
+					title: "Log Grab Failed",
+					message: error.message,
 					color: "red",
 				});
 			},

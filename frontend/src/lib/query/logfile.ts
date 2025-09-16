@@ -1,10 +1,7 @@
-import {
-	mutationOptions,
-	type QueryClient,
-	queryOptions,
-} from "@tanstack/react-query";
+import { mutationOptions, queryOptions } from "@tanstack/react-query";
+import { API_URL } from "@/lib/constants";
 
-const endpoint = "http://localhost:3000/api/logfiles/";
+const endpoint = `${API_URL}/logfiles/`;
 
 export const getLogfilesQuery = queryOptions({
 	queryKey: ["logfiles"],
@@ -39,10 +36,6 @@ export const updateLogfileMutation = mutationOptions({
 		}
 		return response.json();
 	},
-	onSuccess: (_data, _variables, context: { queryClient: QueryClient }) => {
-		// Invalidate the logfiles query to refetch the updated data
-		context?.queryClient.invalidateQueries(getLogfilesQuery);
-	},
 });
 
 export const deleteLogfileMutation = mutationOptions({
@@ -58,10 +51,6 @@ export const deleteLogfileMutation = mutationOptions({
 		if (!response.ok) {
 			throw new Error("Failed to delete logfile");
 		}
-	},
-	onSuccess: (_data, _variables, context: { queryClient: QueryClient }) => {
-		// Invalidate the logfiles query to refetch the updated data
-		context?.queryClient.invalidateQueries(getLogfilesQuery);
 	},
 });
 
@@ -80,9 +69,5 @@ export const createLogfileMutation = mutationOptions({
 			throw new Error("Failed to create logfile");
 		}
 		return response.json();
-	},
-	onSuccess: (_data, _variables, context: { queryClient: QueryClient }) => {
-		// Invalidate the logfiles query to refetch the updated data
-		context?.queryClient.invalidateQueries(getLogfilesQuery);
 	},
 });

@@ -1,7 +1,6 @@
 export type Channel = {
 	id: number;
 	name: string;
-	name_lower: string;
 };
 
 export type Logfile = {

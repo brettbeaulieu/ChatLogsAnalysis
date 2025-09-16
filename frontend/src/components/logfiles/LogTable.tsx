@@ -7,10 +7,9 @@ import {
 	useMantineReactTable,
 } from "mantine-react-table";
 import { useState } from "react";
-import type { Channel } from "@/api";
 import { RowActions } from "@/components/table/RowActions";
 import { useDelete, useUpdate } from "@/hooks/logfile";
-import type { Logfile } from "@/lib/types";
+import type { Channel, Logfile } from "@/lib/types";
 import { useColumns } from "./LogTableColumns";
 
 interface LogTableProps {
