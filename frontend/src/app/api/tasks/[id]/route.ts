@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { BACKEND_URL } from "@/lib/constants";
 
 const getRoute = async (
 	_request: Request,
 	{ params }: { params: { id: string } },
 ) => {
 	const response = await fetch(
-		`http://backend:8000/api/tasks/status?task_id=${params.id}`,
+		`${BACKEND_URL}/tasks/status?task_id=${params.id}`,
 		{ cache: "no-cache" },
 	);
 	if (!response.ok) {

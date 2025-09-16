@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { BACKEND_URL } from "@/lib/constants";
 
 const patchRoute = async (
 	request: Request,
@@ -13,7 +14,7 @@ const patchRoute = async (
 		}
 
 		// send to backend:8000 to update the channel name
-		const response = await fetch(`http://backend:8000/api/channels/${id}/`, {
+		const response = await fetch(`${BACKEND_URL}/channels/${id}/`, {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
@@ -57,7 +58,7 @@ const deleteRoute = async (
 			);
 		}
 		// send to backend:8000 to delete the channel
-		const response = await fetch(`http://backend:8000/api/channels/${id}/`, {
+		const response = await fetch(`${BACKEND_URL}/channels/${id}/`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",

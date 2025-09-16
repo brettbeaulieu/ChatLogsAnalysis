@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { BACKEND_URL } from "@/lib/constants";
 
 const getRoute = async () => {
 	try {
 		// Fetch chat files from backend:8000
-		const response = await fetch("http://backend:8000/api/chatfiles", {
+		const response = await fetch(`${BACKEND_URL}/chatfiles`, {
 			method: "GET",
 		});
 		if (!response.ok) {

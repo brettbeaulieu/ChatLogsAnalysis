@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
+import { BACKEND_URL } from "@/lib/constants";
 
-// expects response type { valid: boolean, channels: string[] }
 const getRoute = async (request: Request) => {
 	const { searchParams } = new URL(request.url);
 	const repoUrl = searchParams.get("repo_url");
@@ -12,7 +12,7 @@ const getRoute = async (request: Request) => {
 	}
 	try {
 		const response = await fetch(
-			"http://backend:8000/api/rustlog/channels/?repo_url=" +
+			`${BACKEND_URL}/rustlog/channels/?repo_url=` +
 				encodeURIComponent(repoUrl),
 		);
 		if (!response.ok) {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { BACKEND_URL } from "@/lib/constants";
 
 const postRoute = async (request: Request) => {
 	const { repo_name, channel_name, start_date, end_date } =
@@ -11,7 +12,7 @@ const postRoute = async (request: Request) => {
 		);
 	}
 	try {
-		const response = await fetch("http://backend:8000/api/rustlog/logs/", {
+		const response = await fetch(`${BACKEND_URL}/rustlog/logs/`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ repo_name, channel_name, start_date, end_date }),

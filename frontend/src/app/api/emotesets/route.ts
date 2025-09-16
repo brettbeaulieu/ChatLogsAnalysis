@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { BACKEND_URL } from "@/lib/constants";
 
 const getRoute = async () => {
 	try {
 		// Fetch emote sets from backend:8000
-		const response = await fetch("http://backend:8000/api/emotesets", {
+		const response = await fetch(`${BACKEND_URL}/emotesets`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -32,7 +33,7 @@ const postRoute = async (request: Request) => {
 	try {
 		const body = await request.json();
 		// send to backend:8000 to create the channel
-		const response = await fetch("http://backend:8000/api/emotesets/", {
+		const response = await fetch(`${BACKEND_URL}/emotesets/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
